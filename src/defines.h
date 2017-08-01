@@ -1,0 +1,17 @@
+#ifndef DEFINES_H
+#define DEFINES_H
+
+
+#define SAMPLE_RATE 44100
+#define NUM_MUSICS 32
+#define PAUSE_FADE_RATE (0.996f)
+#define PAUSE_FADE_LIMIT (0.01f)
+#define UPDATE_GAIN_RATE (0.00005f)
+#define UPDATE_BALANCE_RATE (0.0001f)
+
+#define PI_4 0.78539816339 // PI/4
+#define SQRT2_2 0.70710678118 // SQRT(2)/2
+#define E_minus1 1.718281828459045235360287471352662497757247093699959574966 // (e-1)
+void throwError(std::string s);
+
+#endif // DEFINES_H

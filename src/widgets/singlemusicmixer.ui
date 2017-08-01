@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SingleMusicMixer</class>
+ <widget class="QFrame" name="SingleMusicMixer">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>107</width>
+    <height>311</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Frame</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">
+ QSlider::groove:horizontal {
+  border: 1px solid #bbb;
+  background: white;
+  height: 10px;
+  border-radius: 4px;
+}
+
+QSlider::sub-page:horizontal {
+  background: qlineargradient(x1: 0, y1: 0,   x2: 0, y2: 1,stop: 0 #66e, stop: 1 #bbf);
+  background: qlineargradient(x1: 0, y1: 0.2, x2: 1, y2: 1,stop: 0 #bbf, stop: 1 #55f);
+  border: 1px solid #777;
+  height: 10px;
+  border-radius: 4px;
+}
+
+QSlider::add-page:horizontal {
+  background: #fff;
+  border: 1px solid #777;
+  height: 10px;
+  border-radius: 4px;
+}
+
+QSlider::handle:horizontal {
+  background: qlineargradient(x1:0, y1:0, x2:1, y2:1,stop:0 #eee, stop:1 #ccc);
+  border: 1px solid #777;
+  width: 13px;
+  margin-top: -2px;
+  margin-bottom: -2px;
+  border-radius: 4px;
+}
+
+QSlider::handle:horizontal:hover {
+  background: qlineargradient(x1:0, y1:0, x2:1, y2:1,stop:0 #fff, stop:1 #ddd);
+  border: 1px solid #444;
+  border-radius: 4px;
+}
+
+QSlider::sub-page:horizontal:disabled {
+  background: #bbb;
+  border-color: #999;
+}
+
+QSlider::add-page:horizontal:disabled {
+  background: #eee;
+  border-color: #999;
+}
+
+QSlider::handle:horizontal:disabled {
+  background: #eee;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+}
+
+/*  ################   */
+
+QProgressBar::chunk:vertical {
+  /*background: qlineargradient(x1: 0,   y1: 0,   x2: 1, y2: 0,stop: 0 #66e, stop: 1 #bbf);
+  background: qlineargradient(x1: 0.2, y1: 0,   x2: 1, y2: 1,stop: 0 #bbf, stop: 1 #55f);
+  */
+  background: lightblue;
+  border-radius: 4px; 
+}
+
+QProgressBar:vertical {
+  width: 2px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  border: 0px solid #bbb;
+  border-radius: 4px; 
+
+}
+
+QSlider::groove:vertical {
+  border: 0px solid #bbb;
+  background: transparent;
+  /*background: white;*/
+  width: 10px;
+  border-radius: 4px;
+}
+
+QSlider::sub-page:vertical {
+  margin-top: 4px;
+  background: transparent;
+  /*background: #fff;*/
+  border: 1px solid #777;
+  width: 10px;
+  border-radius: 4px;
+}
+
+QSlider::add-page:vertical {
+  /*background: qlineargradient(x1: 0,   y1: 0,   x2: 1, y2: 0,stop: 0 #66e, stop: 1 #bbf);
+  background: qlineargradient(x1: 0.2, y1: 0,   x2: 1, y2: 1,stop: 0 #bbf, stop: 1 #55f);*/
+  margin-bottom: 4px;
+  background: transparent;
+  border: 1px solid #777;
+  width: 10px;
+  border-radius: 4px;
+}
+
+QSlider::handle:vertical {
+  background: qlineargradient(x1:0, y1:0, x2:1, y2:1,stop:0 #eee, stop:1 #ccc);
+  border: 1px solid #777;
+  height: 13px;
+  margin-left: -2px;
+  margin-right: -2px;
+  border-radius: 4px;
+}
+
+QSlider::handle:vertical:hover {
+  background: qlineargradient(x1:0, y1:0, x2:1, y2:1,stop:0 #fff, stop:1 #ddd);
+  border: 1px solid #444;
+  border-radius: 4px;
+}
+
+QSlider::sub-page:vertical:disabled {
+  background: #bbb;
+  border-color: #999;
+}
+
+QSlider::add-page:vertical:disabled {
+  background: #eee;
+  border-color: #999;
+}
+
+QSlider::handle:vertical:disabled {
+  background: #eee;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+}
+
+
+
+</string>
+  </property>
+  <property name="frameShape">
+   <enum>QFrame::Panel</enum>
+  </property>
+  <property name="frameShadow">
+   <enum>QFrame::Raised</enum>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <property name="leftMargin">
+    <number>5</number>
+   </property>
+   <property name="topMargin">
+    <number>4</number>
+   </property>
+   <property name="rightMargin">
+    <number>5</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item row="0" column="0">
+    <widget class="QDockWidget" name="dockWidget">
+     <property name="features">
+      <set>QDockWidget::NoDockWidgetFeatures</set>
+     </property>
+     <property name="allowedAreas">
+      <set>Qt::NoDockWidgetArea</set>
+     </property>
+     <property name="windowTitle">
+      <string notr="true">Zbra !</string>
+     </property>
+     <widget class="QWidget" name="dockWidgetContents">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="sizeConstraint">
+        <enum>QLayout::SetDefaultConstraint</enum>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>4</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>4</number>
+       </property>
+       <item>
+        <layout class="QGridLayout" name="GridSlider_Progress">
+         <item row="0" column="0">
+          <layout class="QGridLayout" name="progressBarAlignGrid">
+           <item row="0" column="0">
+            <widget class="QProgressBar" name="progressBar">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>10</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="value">
+              <number>33</number>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+             <property name="textVisible">
+              <bool>false</bool>
+             </property>
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="invertedAppearance">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="0" column="0">
+          <widget class="QSlider" name="verticalSlider">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="maximum">
+            <number>100</number>
+           </property>
+           <property name="value">
+            <number>33</number>
+           </property>
+           <property name="sliderPosition">
+            <number>33</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>Play</string>
+         </property>
+         <property name="flat">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
