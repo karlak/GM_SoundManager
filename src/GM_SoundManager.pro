@@ -29,7 +29,9 @@ SOURCES += \
     audio/music.cpp \
     audio/soundmanager.cpp \
     widgets/singlemusicmixer.cpp \
-    widgets/reorderview.cpp
+    widgets/reorderview.cpp \
+    _libs/miniz/miniz_lib.cpp
+    
 
 HEADERS += \
     defines.h \
@@ -37,7 +39,8 @@ HEADERS += \
     audio/music.h \
     audio/soundmanager.h \
     widgets/singlemusicmixer.h \
-    widgets/reorderview.h
+    widgets/reorderview.h \
+    _libs/miniz/miniz.h
 
 FORMS += \
         mainwindow.ui \
