@@ -202,6 +202,7 @@ void Music::load(const char *filename)
     sf_close(file);
     
     if (SAMPLE_RATE != sampleRate) {
+        throwError(std::string("Wrong SampleRate ! Given:")+std::to_string(sampleRate)+". Expected: "+std::to_string(SAMPLE_RATE));
         double irate = sampleRate;
         double orate = SAMPLE_RATE;
         size_t olen = (size_t)(sfinfo.frames*(orate / irate) + 0.5f);

@@ -42,8 +42,14 @@ MainWindow::MainWindow(QWidget *parent) :
     music = new SingleMusicMixer(nullptr);
     music->linkToMusic(3);
     ui->reorder_view->addWidget(music);
+    music = new SingleMusicMixer(nullptr);
+    music->linkToMusic(4);
+    ui->reorder_view->addWidget(music);
+    music = new SingleMusicMixer(nullptr);
+    music->linkToMusic(5);
+    ui->reorder_view->addWidget(music);
     
-    QPushButton *bouton = new QPushButton("Mon bouton entre en scène !");
+    /*QPushButton *bouton = new QPushButton("Mon bouton entre en scène !");
     ui->reorder_view->addWidget(bouton);
     bouton->setMinimumHeight(222);
     bouton = new QPushButton("Mon bouton 2 !");
@@ -51,8 +57,7 @@ MainWindow::MainWindow(QWidget *parent) :
     bouton = new QPushButton("Mon bouton 3 !");
     ui->reorder_view->addWidget(bouton);
     bouton = new QPushButton("Mon bouton 4 !");
-    ui->reorder_view->addWidget(bouton);
-    
+    ui->reorder_view->addWidget(bouton);*/
     
 }
 
