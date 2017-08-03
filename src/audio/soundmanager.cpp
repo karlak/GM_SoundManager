@@ -51,6 +51,52 @@ void SoundManager::Terminate()
     }
 }
 
+std::vector<DeviceInfo> SoundManager::getDevicesInfo()
+{
+    int numDevices = Pa_GetDeviceCount();
+	if (numDevices < 0) {
+		throwError(std::to_string(numDevices));
+	}
+	int default_output_device = Pa_GetDefaultOutputDevice();
+
+	const PaDeviceInfo* deviceInfo;
+	int num_output_devices = 0;
+	for (int i = 0; i < numDevices; i++)
+	{
+		deviceInfo = Pa_GetDeviceInfo(i);
+		if (deviceInfo->maxOutputChannels > 0) {
+			num_output_devices++;
+		}
+	}
+	std::vector<DeviceInfo> d = std::vector<DeviceInfo>(num_output_devices);
+
+	int j = 0;
+	for (int i = 0; i<numDevices; i++)
+	{
+		deviceInfo = Pa_GetDeviceInfo(i);
+		if (deviceInfo->maxOutputChannels <= 0) {
+			continue;
+		}
+		//d[j] = gcnew GMSM_Lib::SoundManager::DeviceInfo();
+
+		/*wchar_t wideName[MAX_PATH];
+		MultiByteToWideChar(CP_UTF8, 0, deviceInfo->name, -1, wideName, MAX_PATH - 1);*/
+		d[j].name = std::string(deviceInfo->name);
+		d[j].device_id = i;
+		d[j].is_default = (i == default_output_device);
+
+		d[j].defaultSampleRate = deviceInfo->defaultSampleRate;
+		d[j].defaultHighInputLatency = deviceInfo->defaultHighInputLatency;
+		d[j].defaultHighOutputLatency = deviceInfo->defaultHighOutputLatency;
+		d[j].defaultLowInputLatency = deviceInfo->defaultLowInputLatency;
+		d[j].defaultLowOutputLatency = deviceInfo->defaultLowOutputLatency;
+		d[j].maxInputChannels = deviceInfo->maxInputChannels;
+		d[j].maxOutputChannels = deviceInfo->maxOutputChannels;
+		j++;
+	}
+	return d;
+}
+
 int SoundManager::myMemberCallback(const void *input, void *output, unsigned long frameCount, const PaStreamCallbackTimeInfo *timeInfo, PaStreamCallbackFlags statusFlags)
 {
     input; timeInfo; statusFlags;

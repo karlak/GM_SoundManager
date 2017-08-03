@@ -12,7 +12,7 @@ class LooperInfos;
 
 struct DeviceInfo {
     int device_id;
-    std::string Name;
+    std::string name;
     int maxInputChannels;
     int maxOutputChannels;
     double defaultLowInputLatency;

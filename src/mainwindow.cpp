@@ -146,17 +146,18 @@ MainWindow::MainWindow(QWidget *parent) :
     music->linkToMusic(5);
     ui->reorder_view->addWidget(music);
     
-    /*QPushButton *bouton = new QPushButton("Mon bouton entre en scène !");
-    ui->reorder_view->addWidget(bouton);
-    bouton->setMinimumHeight(222);
-    bouton = new QPushButton("Mon bouton 2 !");
-    ui->reorder_view->addWidget(bouton);
-    bouton = new QPushButton("Mon bouton 3 !");
-    ui->reorder_view->addWidget(bouton);
-    bouton = new QPushButton("Mon bouton 4 !");
-    ui->reorder_view->addWidget(bouton);*/
     
     test_miniz();
+    
+    ui->menuAudioOut->clear();
+    
+    auto infos = s->getDevicesInfo();
+    foreach (auto i, infos) {
+        //QAction* elem = new QAction(, ui->menuAudioOut);
+        ui->menuAudioOut->addAction(QString::fromUtf8(i.name.c_str(), (int)i.name.length()));
+        //QString::fromUtf8(i.name, i.name.length());
+    }
+
 }
 
 MainWindow::~MainWindow()
