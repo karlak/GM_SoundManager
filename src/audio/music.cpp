@@ -12,10 +12,10 @@
 #include <chrono>
 #include <thread>
 
-void throwError(std::string s){
+/*void throwError(std::string s){
     std::cout << "ERROR: " << s << std::endl;
     throw s;
-}
+}*/
 
 
 
@@ -187,7 +187,7 @@ void Music::load(const char *filename)
     
     file = sf_open(filename, SFM_READ, &sfinfo);
     if (!file) {
-        throwError(std::string("Impossible d'ouvrir le fichier. ")+std::string(filename));
+        throw (std::string("Impossible d'ouvrir le fichier. ")+std::string(filename));
     }
     
     nbSamples = sfinfo.channels * (long)sfinfo.frames;
@@ -197,12 +197,12 @@ void Music::load(const char *filename)
     
     data = new float[nbSamples];
     if (sf_read_float(file, data, nbSamples) != nbSamples) {
-        throwError("Samples error.");
+        throw ("Samples error.");
     }
     sf_close(file);
     
     if (SAMPLE_RATE != sampleRate) {
-        throwError(std::string("Wrong SampleRate ! Given:")+std::to_string(sampleRate)+". Expected: "+std::to_string(SAMPLE_RATE));
+        throw (std::string("Wrong SampleRate ! Given:")+std::to_string(sampleRate)+". Expected: "+std::to_string(SAMPLE_RATE));
         double irate = sampleRate;
         double orate = SAMPLE_RATE;
         size_t olen = (size_t)(sfinfo.frames*(orate / irate) + 0.5f);
@@ -218,7 +218,7 @@ void Music::load(const char *filename)
                                           &quality,
                                           &runtime);
         if(error)
-            throwError(std::string(soxr_strerror(error)));
+            throw (std::string(soxr_strerror(error)));
         delete[] data;
         data = out;
         nbSamples = odone * nbChannels;
@@ -236,7 +236,7 @@ void Music::loadInfiniteLooper(const char *filename)
 		loadedInfiniteLooper = true;
 	}
 	catch (std::exception &e) {
-		throwError(e.what());
+		throw (e.what());
 	}
 }
 
@@ -281,7 +281,7 @@ LooperInfos::LooperInfos(const char *filename)
 
 	std::ifstream file(filename);
 	if (!file.good()) {
-		throwError("Impossible d'ouvrir le fichier boucle.");
+		throw ("Impossible d'ouvrir le fichier boucle.");
 	}
 	std::string line;
 
@@ -333,7 +333,7 @@ LooperInfos::LooperInfos(const char *filename)
 		}
 	}
 	catch (std::exception &e) {
-		throwError(e.what());
+		throw (e.what());
     }
 }
 

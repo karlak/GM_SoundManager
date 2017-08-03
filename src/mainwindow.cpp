@@ -151,13 +151,30 @@ MainWindow::MainWindow(QWidget *parent) :
     
     ui->menuAudioOut->clear();
     
-    auto infos = s->getDevicesInfo();
-    foreach (auto i, infos) {
-        //QAction* elem = new QAction(, ui->menuAudioOut);
-        ui->menuAudioOut->addAction(QString::fromUtf8(i.name.c_str(), (int)i.name.length()));
-        //QString::fromUtf8(i.name, i.name.length());
+    auto audioGroup = new QActionGroup(this);
+    audioGroup->setExclusive(true);
+    
+    devices = s->getDevicesInfo();
+    for(int i = 0;i<devices.size();i++){
+        std::string tmp_name = "["+devices[i].api+"] "+devices[i].name;
+        auto name = QString::fromUtf8(tmp_name.c_str(), (int)tmp_name.length());
+        QAction* elem = ui->menuAudioOut->addAction(name, this, &MainWindow::clickMenuAudioOut);
+        audioGroup->addAction(elem);
+        elem->setProperty("deviceInfo", QVariant::fromValue((void*)&devices[i]));
+        elem->setCheckable(true);
+        if(devices[i].is_default)
+            elem->setChecked(true);
+        //std::cout << &(devices[i]) << std::endl;
     }
 
+}
+
+void MainWindow::clickMenuAudioOut()
+{
+    auto qvariant = sender()->property("deviceInfo");
+    DeviceInfo* dev = (DeviceInfo*)qvariant.value<void*>();
+    std::cout << "ZBRA! " << dev->name << "!!" << std::endl;
+    s->OpenStream(dev);
 }
 
 MainWindow::~MainWindow()
@@ -172,4 +189,6 @@ void MainWindow::update()
 {
     ui->music_controller->update();
 }
+
+
 
