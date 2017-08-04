@@ -37,18 +37,75 @@ void SoundManager::Initialize()
 void SoundManager::Terminate()
 {
     PaError err;
-	if (is_initialized) {
+    if (is_initialized) {
         for (int i = 0; i < NUM_MUSICS; ++i) {
             array_music[i].unload();
         }
         CloseStream();
-		err = Pa_Terminate();
-		if (err != paNoError) {
-			std::cout << err << std::endl;
-		}
-		is_initialized = false;
+        err = Pa_Terminate();
+        if (err != paNoError) {
+            std::cout << err << std::endl;
+        }
+        is_initialized = false;
         
     }
+}
+
+std::vector<DeviceInfo> SoundManager::getDevicesInfo()
+{
+    int numDevices = Pa_GetDeviceCount();
+    if (numDevices < 0) {
+        throw (std::to_string(numDevices));
+    }
+    int default_output_device = Pa_GetDefaultOutputDevice();
+
+    const PaDeviceInfo* deviceInfo;
+    int num_output_devices = 0;
+    for (int i = 0; i < numDevices; i++)
+    {
+        deviceInfo = Pa_GetDeviceInfo(i);
+        if (deviceInfo->maxOutputChannels > 0) {
+            num_output_devices++;
+        }
+    }
+    std::vector<DeviceInfo> d = std::vector<DeviceInfo>(num_output_devices);
+
+    int j = 0;
+    for (int i = 0; i<numDevices; i++)
+    {
+        deviceInfo = Pa_GetDeviceInfo(i);
+        if (deviceInfo->maxOutputChannels <= 0) {
+            continue;
+        }
+        PaStreamParameters outputParameters;
+        outputParameters.channelCount = 2;
+        outputParameters.device = i;
+        outputParameters.hostApiSpecificStreamInfo = NULL;
+        outputParameters.sampleFormat = paFloat32;
+        outputParameters.suggestedLatency = deviceInfo->defaultLowOutputLatency;
+        PaError err = Pa_IsFormatSupported( NULL, &outputParameters, SAMPLE_RATE);
+        if( err != paFormatIsSupported )
+            continue;
+        
+        
+        auto api = Pa_GetHostApiInfo(deviceInfo->hostApi);
+        d[j].api = std::string(api->name);
+        
+        d[j].name = std::string(deviceInfo->name);
+        d[j].device_id = i;
+        d[j].is_default = (i == default_output_device);
+
+        d[j].defaultSampleRate = deviceInfo->defaultSampleRate;
+        d[j].defaultHighInputLatency = deviceInfo->defaultHighInputLatency;
+        d[j].defaultHighOutputLatency = deviceInfo->defaultHighOutputLatency;
+        d[j].defaultLowInputLatency = deviceInfo->defaultLowInputLatency;
+        d[j].defaultLowOutputLatency = deviceInfo->defaultLowOutputLatency;
+        d[j].maxInputChannels = deviceInfo->maxInputChannels;
+        d[j].maxOutputChannels = deviceInfo->maxOutputChannels;
+        j++;
+    }
+    d.resize(j);
+    return d;
 }
 
 int SoundManager::myMemberCallback(const void *input, void *output, unsigned long frameCount, const PaStreamCallbackTimeInfo *timeInfo, PaStreamCallbackFlags statusFlags)
@@ -56,10 +113,10 @@ int SoundManager::myMemberCallback(const void *input, void *output, unsigned lon
     input; timeInfo; statusFlags;
     memset(output, 0, sizeof(float) * frameCount * 2);
 
-	for (int m = 0; m < NUM_MUSICS; m++) {
-		Music* music = &array_music[m];
-		music->writeData((float*)output, frameCount, this);
-	}
+    for (int m = 0; m < NUM_MUSICS; m++) {
+        Music* music = &array_music[m];
+        music->writeData((float*)output, frameCount, this);
+    }
 
 
     return paContinue;
@@ -68,38 +125,39 @@ int SoundManager::myMemberCallback(const void *input, void *output, unsigned lon
 void SoundManager::OpenStream(DeviceInfo *dev)
 {
     if (is_stream_open) {
-		CloseStream();
-	}
+        CloseStream();
+    }
 
-	if (dev == nullptr) {
-		auto *me = this;
-		PaError err = Pa_OpenDefaultStream(&stream, 0, 2, paFloat32, SAMPLE_RATE, 64, &myStaticCallback, me);
-		if (err != paNoError) throwError(std::to_string(err));
-		err = Pa_StartStream(stream);
-		if (err != paNoError) throwError(std::to_string(err));
+    if (dev == nullptr) {
+        auto *me = this;
+        PaError err = Pa_OpenDefaultStream(&stream, 0, 2, paFloat32, SAMPLE_RATE, 64, &myStaticCallback, me);
+        if (err != paNoError) throw (Pa_GetErrorText(err));
+        err = Pa_StartStream(stream);
+        if (err != paNoError) throw (Pa_GetErrorText(err));
 
-	}
-	else {
-		auto *me = this;
-		PaStreamParameters outputParameters;
+    }
+    else {
+        auto *me = this;
+        PaStreamParameters outputParameters;
 
-		//bzero(&outputParameters, sizeof(outputParameters)); //not necessary if you are filling in all the fields
-		outputParameters.channelCount = 2;
-		outputParameters.device = dev->device_id;
-		outputParameters.hostApiSpecificStreamInfo = NULL;
-		outputParameters.sampleFormat = paFloat32;
-		outputParameters.suggestedLatency = dev->defaultLowOutputLatency;
+        //bzero(&outputParameters, sizeof(outputParameters)); //not necessary if you are filling in all the fields
+        outputParameters.channelCount = 2;
+        outputParameters.device = dev->device_id;
+        outputParameters.hostApiSpecificStreamInfo = NULL;
+        outputParameters.sampleFormat = paFloat32;
+        outputParameters.suggestedLatency = dev->defaultLowOutputLatency;
 
 
-		PaError err = Pa_OpenStream(&stream, NULL, &outputParameters, SAMPLE_RATE, 64,
-			paNoFlag, //flags that can be used to define dither, clip settings and more
-			&myStaticCallback, //your callback function
-			me); //data to be passed to callback. In C++, it is frequently (void *)this
-		if (err != paNoError) throwError(std::to_string(err));
-		err = Pa_StartStream(stream);
-		if (err != paNoError) throwError(std::to_string(err));
-	}
-	is_stream_open = true;
+        PaError err = Pa_OpenStream(&stream, NULL, &outputParameters, SAMPLE_RATE, 64,
+            paNoFlag, //flags that can be used to define dither, clip settings and more
+            &myStaticCallback, //your callback function
+            me); //data to be passed to callback. In C++, it is frequently (void *)this
+        // @todo: handle errors properly, don't throw exceptions everywhere
+        if (err != paNoError) throw std::exception(Pa_GetErrorText(err));
+        err = Pa_StartStream(stream);
+        if (err != paNoError) throw std::exception(Pa_GetErrorText(err));
+    }
+    is_stream_open = true;
 }
 
 void SoundManager::CloseStream()

@@ -12,6 +12,6 @@
 #define PI_4 0.78539816339 // PI/4
 #define SQRT2_2 0.70710678118 // SQRT(2)/2
 #define E_minus1 1.718281828459045235360287471352662497757247093699959574966 // (e-1)
-void throwError(std::string s);
+//voithrow or(std::string s);
 
 #endif // DEFINES_H

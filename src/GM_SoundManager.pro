@@ -29,7 +29,9 @@ SOURCES += \
     audio/music.cpp \
     audio/soundmanager.cpp \
     widgets/singlemusicmixer.cpp \
-    widgets/reorderview.cpp
+    widgets/reorderview.cpp \
+    _libs/miniz/miniz_lib.cpp
+    
 
 HEADERS += \
     defines.h \
@@ -37,24 +39,27 @@ HEADERS += \
     audio/music.h \
     audio/soundmanager.h \
     widgets/singlemusicmixer.h \
-    widgets/reorderview.h
+    widgets/reorderview.h \
+    _libs/miniz/miniz.h
 
 FORMS += \
         mainwindow.ui \
     widgets/singlemusicmixer.ui \
     test.ui
 
-win32: LIBS += -L$$PWD/libs/PortAudio/releaseMin/ -lportaudio_x64
+win32: LIBS += -L$$PWD/_libs/PortAudio/releaseMin/ -lportaudio_x64
 
-INCLUDEPATH += $$PWD/libs/PortAudio/include
-DEPENDPATH += $$PWD/libs/PortAudio/include
+INCLUDEPATH += $$PWD/_libs/PortAudio/include
+DEPENDPATH += $$PWD/_libs/PortAudio/include
 
-win32: LIBS += -L$$PWD/libs/libsndfile_x64/lib/ -llibsndfile-1
+win32: LIBS += -L$$PWD/_libs/libsndfile_x64/lib/ -llibsndfile-1
 
-INCLUDEPATH += $$PWD/libs/libsndfile_x64/include
-DEPENDPATH += $$PWD/libs/libsndfile_x64/include
+INCLUDEPATH += $$PWD/_libs/libsndfile_x64/include
+DEPENDPATH += $$PWD/_libs/libsndfile_x64/include
 
-win32: LIBS += -L$$PWD/libs/soxr_x64/lib/ -lsoxr
+win32: LIBS += -L$$PWD/_libs/soxr_x64/lib/ -lsoxr
 
-INCLUDEPATH += $$PWD/libs/soxr_x64/include
-DEPENDPATH += $$PWD/libs/soxr_x64/include
+INCLUDEPATH += $$PWD/_libs/soxr_x64/include
+DEPENDPATH += $$PWD/_libs/soxr_x64/include
+
+

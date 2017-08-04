@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "audio/soundmanager.h"
 
 namespace Ui {
 class MainWindow;
@@ -17,9 +18,11 @@ public:
 
 private slots:
     void update();
+    void clickMenuAudioOut();
     
 private:
     Ui::MainWindow *ui;
+    std::vector<DeviceInfo> devices;
 };
 
 #endif // MAINWINDOW_H
